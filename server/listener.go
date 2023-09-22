@@ -22,9 +22,8 @@ type Config struct {
 	Timeout    time.Duration `yaml:"timeout"`
 }
 
-// ListenAndServeWithSignal 监听中断信号并通过 closeChan 通知服务器关闭
 func ListenAndServeWithSignal(cfg *Config, handler server.Handler) error {
-
+	// ListenAndServeWithSignal 监听中断信号并通过 closeChan 通知服务器关闭
 	closeChan := make(chan struct{})
 	sigCh := make(chan os.Signal)
 	signal.Notify(sigCh, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
@@ -45,7 +44,7 @@ func ListenAndServeWithSignal(cfg *Config, handler server.Handler) error {
 }
 
 func ListenerService(listener net.Listener, handler server.Handler, closeChan <-chan struct{}) {
-	// listen signal
+
 	errCh := make(chan error, 1)
 	defer close(errCh)
 	go func() {
